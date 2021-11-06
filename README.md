@@ -1,6 +1,6 @@
 SimSim [심심]
 ======
-######Made by *bazu(baezu2zu2)* [*바쭈* 만듬]
+###### Made by *bazu(baezu2zu2)* [*바쭈* 만듬]
 
 ---
 
