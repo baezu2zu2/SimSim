@@ -1,0 +1,11 @@
+players = []
+kings = []
+guilds = []
+playernum = 0
+min_hp = 0
+max_hp = 0
+min_atk = 0
+max_atk = 0
+min_left_heal = 0
+max_left_heal = 0
+guild = False
