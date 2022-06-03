@@ -19,7 +19,7 @@ display_num = t.StringVar()
 def set_operation(str):
     dict = {'+': PLUS, '-': MINUS, '*': MULTIPLY, '/': DIVIDE}
 
-    if str not in dict.keys() or not float_point_bool:
+    if str not in dict.keys() or float_point_bool:
         return False
 
     global operation, display_num
@@ -32,28 +32,36 @@ def set_operation(str):
 
 def num_operation(num):
     global result, operation, float_point_bool
+    print(operation)
+    print(float_point_bool)
 
-    if float_point_bool:
+    if type(result) == float and operation == 0:
+        divide_num = 10 ** (len(str(result).split('.')[-1])+1)
+
+        result *= divide_num
+        result += num
+        result /= divide_num
+    elif float_point_bool:
         if type(result) == int:
             result *= 10
             result += num
             result /= 10
-        elif type(result) == float:
-            float_part = result - int(result)
-
-            divide_num = 10 ** (len(str(float_part))-1)
-            result *= divide_num
-            result += num
-            result /= divide_num
-
         float_point_bool = False
-
-    else:
+    elif operation == 0:
         result *= 10
         result += num
+    else:
+        if operation == PLUS:
+            result += num
+        elif operation == MINUS:
+            result -= num
+        elif operation == MULTIPLY:
+            result *= num
+        elif operation == DIVIDE:
+            result /= num
+        operation = 0
 
     display_num.set(str(result))
-    operation = 0
 
 
 def float_point():
@@ -62,9 +70,19 @@ def float_point():
 
     global float_point_bool
 
+    display_num.set(display_num.get() + '.')
+
     float_point_bool = True
 
     return True
+
+
+def clear_display():
+    global result, operation, float_point_bool
+    display_num.set('')
+    result = 0
+    operation = 0
+    float_point_bool = False
 
 
 display = t.Label(window, width=33, bg='yellow', textvariable=display_num)
@@ -84,12 +102,9 @@ for i in range(len(button_text_list)):
         elif button_text_list[i][j] == '.':
             t.Button(window, text=button_text_list[i][j], width=5
                      , command=float_point).grid(row=i + 1, column=j)
-
-        elif button_text_list[i][j] == '=':
-            pass
-
         elif button_text_list[i][j] == 'C':
-            pass
+            t.Button(window, text=button_text_list[i][j], width=5
+                     , command=clear_display).grid(row=i + 1, column=j)
         else:
             t.Button(window, text=button_text_list[i][j], width=5
                      , command=lambda arg=button_text_list[i][j]: set_operation(arg)).grid(row=i + 1, column=j)
