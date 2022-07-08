@@ -65,7 +65,7 @@ def num_operation(num):
 
 
 def float_point():
-    if operation != 0:
+    if operation != 0 or type(result) == float:
         return False
 
     global float_point_bool
